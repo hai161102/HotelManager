@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/_24sdp"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:src="@drawable/ic_warning"
+                app:tint="@color/red" />
+            <TextView
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/app_name"
+                android:gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/gray"
+                android:id="@+id/message"
+                android:textSize="@dimen/_12sdp"/>
+            <TextView
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"
+                android:background="@drawable/btn_bg"
+                android:paddingVertical="@dimen/_4sdp"
+                android:paddingHorizontal="@dimen/_12sdp"
+                android:backgroundTint="@color/gray"
+                android:textColor="@color/white"
+                android:id="@+id/oke"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_12sdp"
+                />
+        </LinearLayout>
+    </FrameLayout>
+</layout>

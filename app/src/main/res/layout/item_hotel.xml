@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        android:background="@drawable/input_bg"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/hotel_svgrepo_com"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hotelName"
+                android:text="@string/app_name"
+                android:gravity="start|center"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hotelAddress"
+                android:text="@string/app_name"
+                android:gravity="start|center"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/black_30"
+                />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            android:src="@drawable/ic_more"
+            android:padding="@dimen/_4sdp"/>
+    </LinearLayout>
+</layout>
