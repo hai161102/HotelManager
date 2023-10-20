@@ -37,6 +37,20 @@
 <!--                    android:layout_height="@dimen/_20sdp"/>-->
 <!--            </LinearLayout>-->
             <include layout="@layout/layout_header" android:id="@+id/header"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/totalCost"
+                android:text="@string/app_name"
+                android:fontFamily="@font/bill"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/orange"
+                android:gravity="end|center_vertical"
+                android:layout_marginVertical="@dimen/_4sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:paddingVertical="@dimen/_2sdp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

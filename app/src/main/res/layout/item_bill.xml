@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_12sdp"
                 android:fontFamily="@font/bill"
-                android:textColor="@color/black"
+                android:textColor="@color/orange"
                 android:text="@string/null_"
                 android:layout_marginHorizontal="@dimen/_4sdp"
                 android:gravity="end"

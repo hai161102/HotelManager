@@ -1,5 +1,6 @@
 package com.haiprj.apps.hotelmanager.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class BillsActivity extends BaseActivity<ActivityListBillsBinding>{
         context.startActivity(starter);
     }
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     protected void initUI() {
 
@@ -51,6 +53,11 @@ public class BillsActivity extends BaseActivity<ActivityListBillsBinding>{
             Collections.reverse(list);
             billAdapter.addData(list);
         }
+        float cost = 0;
+        for (Bills bills : billAdapter.getList()) {
+            cost += bills.totalMoney;
+        }
+        this.binding.totalCost.setText(String.format("Total: %.2f", cost) + "$");
     }
 
     @Override

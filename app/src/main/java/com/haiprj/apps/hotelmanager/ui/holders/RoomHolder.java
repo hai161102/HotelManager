@@ -74,6 +74,11 @@ public class RoomHolder extends BaseHolder<ItemRoomBinding, Room> {
                 @Override
                 public void end() {
                     ((RoomAdapter) RoomHolder.this.adapter).setLongClickRoom(v, RoomHolder.this, obj);
+                    if(RoomHolder.this.adapter.getOnItemLongClick() != null) {
+                        RoomHolder.this.adapter.getOnItemLongClick().onClick(v, obj);
+                        RoomHolder.this.adapter.getOnItemLongClick().onClick(v, obj, RoomHolder.this.adapter);
+                    }
+
 
                 }
             });

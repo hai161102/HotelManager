@@ -64,4 +64,5 @@
     <string name="change_hotel_name">Change hotel name</string>
     <string name="input_price">Input price</string>
     <string name="add_time_check_in">Add time check in</string>
+    <string name="change_floor_name">Change floor name</string>
 </resources>

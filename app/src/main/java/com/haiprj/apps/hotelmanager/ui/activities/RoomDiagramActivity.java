@@ -17,9 +17,7 @@ import com.haiprj.apps.hotelmanager.models.Floor;
 import com.haiprj.apps.hotelmanager.models.Room;
 import com.haiprj.apps.hotelmanager.models.RoomState;
 import com.haiprj.apps.hotelmanager.ui.adapters.FloorAdapter;
-import com.haiprj.apps.hotelmanager.ui.dialogs.BaseDialog;
 import com.haiprj.apps.hotelmanager.ui.dialogs.BookingDialog;
-import com.haiprj.apps.hotelmanager.ui.dialogs.ListBookingDialog;
 import com.haiprj.apps.hotelmanager.ui.dialogs.UpdateRoomDialog;
 import com.haiprj.apps.hotelmanager.ui.dialogs.WarningDialog;
 import com.haiprj.apps.hotelmanager.ui.holders.RoomHolder;
@@ -124,6 +122,8 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             this.currentHolderRoom = null;
             this.currentRoomHolder = null;
         });
+
+        //Sửa thông tin phòng
         popupOptions.binding.update.setOnClickListener(view -> {
             UpdateRoomDialog updateRoomDialog = new UpdateRoomDialog(
                     this,
@@ -138,14 +138,18 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             updateRoomDialog.showDialog();
             popupOptions.dismiss();
         });
+        //
 
+        //Xóa phòng
         popupOptions.binding.delete.setOnClickListener(v1 -> {
             App.database.getDataRoom().delete(currentHolderRoom);
             this.currentRoomHolder.getAdapter().getList().remove(currentHolderRoom);
             this.currentRoomHolder.getAdapter().notifyItemRemoved(this.currentRoomHolder.getPosition());
             popupOptions.dismiss();
         });
+        //
 
+        //CheckIn
         popupOptions.binding.checkIn.setOnClickListener(v1 -> {
             if (currentHolderRoom.getRoomState() == RoomState.NOT_EMPTY){
                 WarningDialog.getInstance(this).showMessage("Room has client!");
@@ -177,7 +181,9 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             this.currentRoomHolder.getAdapter().notifyItemChanged(this.currentRoomHolder.getPosition());
             popupOptions.dismiss();
         });
+        //
 
+        //Checkout
         popupOptions.binding.checkOut.setOnClickListener(v1 -> {
             if (currentHolderRoom.getRoomState() == RoomState.EMPTY){
                 WarningDialog.getInstance(this).showMessage("Cannot checkout when no client use room!");
@@ -203,7 +209,10 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             this.floorAdapter.notifyDataSetChanged();
             popupOptions.dismiss();
         });
+        //
 
+
+        //Show danh sách hóa đơn trả phòng
         popupOptions.binding.showBills.setOnClickListener(v1 -> {
             Bundle bundle = new Bundle();
             bundle.putString(BillsActivity.SHOW_TYPE, BillsActivity.BY_ROOM);
@@ -211,7 +220,9 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             BillsActivity.start(this, bundle);
             popupOptions.dismiss();
         });
+        //
 
+        //Chọn đặt phòng
         popupOptions.binding.booking.setOnClickListener(v1 -> {
             if (currentHolderRoom.getRoomState() == RoomState.NOT_EMPTY) {
                 WarningDialog.getInstance(this).showMessage(this.getString(R.string.this_room_has_client));
@@ -231,6 +242,7 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
             }).showDialog();
             popupOptions.dismiss();
         });
+        //
     }
 
     @Override

@@ -34,5 +34,13 @@ public class FloorHolder extends BaseHolder<ItemFloorBinding, Floor> {
         List<Room> rooms = App.database.getDataRoom().getAllByFloor(obj.id);
         roomAdapter.getList().clear();
         roomAdapter.addData(rooms);
+        this.binding.getRoot().setOnLongClickListener(v -> {
+            if (this.adapter.getOnItemLongClick() != null) {
+                this.adapter.getOnItemLongClick().onClick(v, obj);
+                this.adapter.getOnItemLongClick().onClick(v, obj, this.adapter);
+                return true;
+            }
+            return false;
+        });
     }
 }

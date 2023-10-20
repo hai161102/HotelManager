@@ -1,6 +1,7 @@
 package com.haiprj.apps.hotelmanager.ui.activities;
 
 import android.content.Intent;
+import android.view.View;
 
 import com.haiprj.apps.hotelmanager.R;
 import com.haiprj.apps.hotelmanager.databinding.ActivityMainBinding;
@@ -43,7 +44,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
         this.menuAdapter.setOnItemClick(new OnItemClick<MenuItem>() {
             @Override
-            public void onClick(MenuItem arg) {
+            public void onClick(View v, MenuItem arg) {
 //                if (arg.getMenuType().equals(MenuType.DIAGRAM)) {
 //                    startActivity(new Intent(MainActivity.this, RoomDiagramActivity.class));
 //                }

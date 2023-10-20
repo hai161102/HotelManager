@@ -28,8 +28,6 @@
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.SignActivity" />
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.RoomDiagramActivity" />
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.HotelManagerActivity" />
-        <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.FloorManagerActivity" />
-        <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.RoomManagerActivity" />
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.SettingActivity" />
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.BillsActivity" />
         <activity android:name="com.haiprj.apps.hotelmanager.ui.activities.BookingActivity" />

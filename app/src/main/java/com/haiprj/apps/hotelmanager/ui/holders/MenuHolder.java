@@ -25,7 +25,7 @@ public class MenuHolder extends BaseHolder<ItemMenuBinding, MenuItem> {
                 @Override
                 public void end() {
                     if (adapter.getOnItemClick() != null) {
-                        adapter.getOnItemClick().onClick(obj);
+                        adapter.getOnItemClick().onClick(v, obj);
                     }
                 }
             });

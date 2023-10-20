@@ -8,18 +8,27 @@ import android.widget.AdapterView;
 import com.haiprj.apps.hotelmanager.App;
 import com.haiprj.apps.hotelmanager.R;
 import com.haiprj.apps.hotelmanager.databinding.ContentInsertFloorBinding;
+import com.haiprj.apps.hotelmanager.databinding.PopupCrudBinding;
+import com.haiprj.apps.hotelmanager.databinding.PopupOptionsBinding;
+import com.haiprj.apps.hotelmanager.interfaces.OnItemClick;
 import com.haiprj.apps.hotelmanager.models.Floor;
 import com.haiprj.apps.hotelmanager.models.Hotel;
+import com.haiprj.apps.hotelmanager.ui.adapters.BaseAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.FloorAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.HotelSpinnerAdapter;
+import com.haiprj.apps.hotelmanager.ui.dialogs.BaseDialog;
+import com.haiprj.apps.hotelmanager.ui.dialogs.RenameDialog;
 import com.haiprj.apps.hotelmanager.ui.dialogs.WarningDialog;
 import com.haiprj.apps.hotelmanager.utils.AnimationUtils;
+import com.haiprj.apps.hotelmanager.utils.PopupCustom;
 
 public class InsertFloorActivity extends BaseActivity<ContentInsertFloorBinding>{
 
     private HotelSpinnerAdapter hotelPickerAdapter;
     private FloorAdapter floorAdapter;
+    private PopupCustom<PopupCrudBinding> popupCustom;
 
+    private Floor currentFloor;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, InsertFloorActivity.class);
@@ -33,6 +42,7 @@ public class InsertFloorActivity extends BaseActivity<ContentInsertFloorBinding>
         floorAdapter = new FloorAdapter(this);
         this.binding.floorList.setAdapter(floorAdapter);
         floorAdapter.addData(App.database.getDataFloor().getAll(((Hotel)this.binding.hotelPicker.getSelectedItem()).id));
+        popupCustom = new PopupCustom<>(this, R.layout.popup_crud);
     }
 
     @Override
@@ -64,6 +74,31 @@ public class InsertFloorActivity extends BaseActivity<ContentInsertFloorBinding>
                 parent.setSelection(0);
             }
         });
+        this.floorAdapter.setOnItemLongClick(new OnItemClick<Floor>() {
+            @Override
+            public void onClick(View v, Floor arg, BaseAdapter<?, Floor> adapter) {
+                int index = adapter.getList().indexOf(arg);
+                popupCustom.binding.update.setOnClickListener(v1 -> {
+                    RenameDialog renameDialog = new RenameDialog(InsertFloorActivity.this, (key, objects) -> {
+                        if (key.equals("apply")) {
+                            arg.name = (String) objects[0];
+                            adapter.notifyItemChanged(index);
+                            App.database.getDataFloor().update(arg);
+                        }
+                    });
+                    renameDialog.showDialog();
+                    popupCustom.dismiss();
+                });
+                popupCustom.binding.delete.setOnClickListener(v1 -> {
+                    adapter.getList().remove(arg);
+                    adapter.notifyItemRemoved(index);
+                    arg.deleteSelf();
+                });
+                popupCustom.show(v);
+            }
+        });
+
+
     }
 
     private void onDoneClick() {

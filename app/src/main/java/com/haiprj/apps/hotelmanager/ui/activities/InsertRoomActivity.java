@@ -8,17 +8,23 @@ import android.widget.AdapterView;
 import com.haiprj.apps.hotelmanager.App;
 import com.haiprj.apps.hotelmanager.R;
 import com.haiprj.apps.hotelmanager.databinding.ContentInsertRoomBinding;
+import com.haiprj.apps.hotelmanager.databinding.PopupCrudBinding;
+import com.haiprj.apps.hotelmanager.interfaces.OnItemClick;
 import com.haiprj.apps.hotelmanager.models.Floor;
 import com.haiprj.apps.hotelmanager.models.Hotel;
 import com.haiprj.apps.hotelmanager.models.Room;
 import com.haiprj.apps.hotelmanager.models.RoomState;
 import com.haiprj.apps.hotelmanager.models.RoomType;
+import com.haiprj.apps.hotelmanager.ui.adapters.BaseAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.FloorPickerAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.HotelSpinnerAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.RoomAdapter;
 import com.haiprj.apps.hotelmanager.ui.adapters.RoomTypePickerAdapter;
+import com.haiprj.apps.hotelmanager.ui.dialogs.BaseDialog;
+import com.haiprj.apps.hotelmanager.ui.dialogs.UpdateRoomDialog;
 import com.haiprj.apps.hotelmanager.ui.dialogs.WarningDialog;
 import com.haiprj.apps.hotelmanager.utils.AnimationUtils;
+import com.haiprj.apps.hotelmanager.utils.PopupCustom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,7 @@ public class InsertRoomActivity extends BaseActivity<ContentInsertRoomBinding>{
 
     private RoomType crRoomType = RoomType.NORMAL;
 
+    private PopupCustom<PopupCrudBinding> popupCustom;
     public static void start(Context context) {
         Intent starter = new Intent(context, InsertRoomActivity.class);
         context.startActivity(starter);
@@ -44,6 +51,7 @@ public class InsertRoomActivity extends BaseActivity<ContentInsertRoomBinding>{
         listType.add("Medium");
         listType.add("VIP");
         roomTypePickerAdapter = new RoomTypePickerAdapter(this, R.layout.item_hotel_picker, listType);
+        popupCustom = new PopupCustom<>(this, R.layout.popup_crud);
 
         this.binding.roomTypes.setAdapter(roomTypePickerAdapter);
         this.binding.roomTypes.setSelection(0);
@@ -137,6 +145,29 @@ public class InsertRoomActivity extends BaseActivity<ContentInsertRoomBinding>{
                 onBackPressed();
             }
         }));
+        roomAdapter.setOnItemLongClick(new OnItemClick<Room>() {
+            @Override
+            public void onClick(View v, Room arg, BaseAdapter<?, Room> adapter) {
+                int index = adapter.getList().indexOf(arg);
+                popupCustom.binding.update.setOnClickListener(v1 -> {
+                    UpdateRoomDialog updateRoomDialog = new UpdateRoomDialog(InsertRoomActivity.this, arg, (key, objects) -> {
+                        if (key.equals("apply")) {
+                            adapter.notifyItemChanged(index);
+                            App.database.getDataRoom().update(arg);
+                        }
+                    });
+                    updateRoomDialog.showDialog();
+                    popupCustom.dismiss();
+                });
+                popupCustom.binding.delete.setOnClickListener(v1 -> {
+                    adapter.getList().remove(arg);
+                    adapter.notifyItemRemoved(index);
+                    arg.deleteSelf();
+                    popupCustom.dismiss();
+                });
+                popupCustom.show(v);
+            }
+        });
     }
 
     private void onDoneClick() {
