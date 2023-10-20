@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         list.add(new MenuItem(R.drawable.diagram, "Diagram", MenuType.DIAGRAM));
         list.add(new MenuItem(R.drawable.bill, "Bills", MenuType.BILLS));
 //        list.add(new MenuItem(R.drawable.order, "Products", MenuType.PRODUCTS));
-        list.add(new MenuItem(R.drawable.customer, "Clients", MenuType.CLIENTS));
+//        list.add(new MenuItem(R.drawable.customer, "Clients", MenuType.CLIENTS));
         list.add(new MenuItem(R.drawable.booking, "Booking", MenuType.BOOKING));
 //        list.add(new MenuItem(R.drawable.report, "Reports", MenuType.REPORTS));
 

@@ -1,8 +1,12 @@
 package com.haiprj.apps.hotelmanager.ui.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -14,6 +18,12 @@ import com.haiprj.apps.hotelmanager.databinding.DialogAddBookingBinding;
 import com.haiprj.apps.hotelmanager.models.Booking;
 import com.haiprj.apps.hotelmanager.utils.AnimationUtils;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class BookingDialog extends BaseDialog<DialogAddBookingBinding>{
 
     private static BookingDialog instance;
@@ -22,14 +32,11 @@ public class BookingDialog extends BaseDialog<DialogAddBookingBinding>{
         return BookingDialog.instance;
     }
 
-    private DatePickerDialog datePickerDialog;
-//    private final TimePickerDialog timePickerDialog;
     private String dateString;
     private String timeString;
 
     public BookingDialog(@NonNull Context context, OnActionDialogCallback onActionDialogCallback) {
         super(context, onActionDialogCallback);
-
     }
 
     @Override
@@ -42,13 +49,35 @@ public class BookingDialog extends BaseDialog<DialogAddBookingBinding>{
                         WarningDialog.getInstance(BookingDialog.this.getContext()).showMessage("Client name length must greater than 6");
                         return;
                     }
-                    BookingDialog.this.onActionDialogCallback.callback("apply", BookingDialog.this.binding.clientName.getText().toString());
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault());
+                    try {
+                        Date date = simpleDateFormat.parse(BookingDialog.this.binding.timeCheckIn.getText().toString());
+                        assert date != null;
+                        Log.d("TAG_BookingDialog", "end: " + date.getTime());
+                        BookingDialog.this.onActionDialogCallback.callback("apply", BookingDialog.this.binding.clientName.getText().toString(),
+                                date.getTime()
+                                );
+                    } catch (ParseException e) {
+                        System.out.println("Error parse date time in booking: " + e.getMessage());
+                    }
+
                     BookingDialog.this.dismiss();
                 }
             });
 
         });
         this.binding.timeCheckIn.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext());
+            datePickerDialog.setOnDateSetListener((view, year, month, dayOfMonth) -> {
+                dateString = dayOfMonth + "-" + (month + 1) + "-" + year;
+                Log.d("TAG_BookingDialog", "date: " + dateString);
+                @SuppressLint("SetTextI18n") TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), (view1, hourOfDay, minute) -> {
+                    timeString = hourOfDay + ":" + minute;
+                    Log.d("TAG_BookingDialog", "hours: " + timeString);
+                    this.binding.timeCheckIn.setText(timeString + " " + dateString);
+                }, 0, 0, true);
+                timePickerDialog.show();
+            });
             datePickerDialog.show();
         });
         this.binding.cancel.setOnClickListener(v -> AnimationUtils.scale(v, 0.9f, 100, new AnimationUtils.AnimationListener() {
@@ -58,21 +87,17 @@ public class BookingDialog extends BaseDialog<DialogAddBookingBinding>{
             }
         }));
 
-        datePickerDialog.getButton(datePickerDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            dateString = datePickerDialog.getDatePicker().getDayOfMonth() + "-"
-                    + datePickerDialog.getDatePicker().getMonth() + "-"
-                    + datePickerDialog.getDatePicker().getYear();
-//            datePickerDialog.dismiss();
-//            timePickerDialog.show();
-        });
+    }
+
+    @Override
+    public void showDialog() {
+        super.showDialog();
+        this.binding.clientName.setText("");
+        this.binding.timeCheckIn.setText("");
     }
 
     @Override
     protected void initView() {
-        datePickerDialog = new DatePickerDialog(this.getContext());
-//        timePickerDialog = new TimePickerDialog(this.getContext(), (view, hourOfDay, minute) -> {
-//
-//        }, 12, 10, false);
     }
 
     @Override

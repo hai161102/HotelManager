@@ -224,7 +224,7 @@ public class RoomDiagramActivity extends BaseActivity<ActivityRoomDiagramBinding
                     Booking booking = new Booking();
                     booking.clientName = (String) objects[0];
                     booking.roomId = term.id;
-                    booking.time = new Date().getTime();
+                    booking.time = (long) objects[1];
                     App.database.getDataBooking().insert(booking);
                     termHolder.getAdapter().notifyItemChanged(termHolder.getAdapterPosition());
                 }
